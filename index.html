@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>EliteCollapseZ's CTF writeups</title>
-    </head>
-    
-    <body>
-        <h1>CTF writeups</h1>
-        <p>ruined my life with ctfs, the writeups are the aftermath...</p>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>EliteCollapseZ's blog</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>EliteCollapseZ's blog</h1>
+    <p class="centered">Find joy in challenges</p>
+
+    <div id="content"></div>
+
+    <script>
+        async function loadWriteupsList() {
+            try {
+                const res = await fetch("writeups/index.json");
+                if (!res.ok) throw new Error("Failed to load index.json");
+
+                const writeups = await res.json();
+                const ul = document.createElement("ul");
+
+                for (const item of writeups) {
+                    const li = document.createElement("li");
+                    li.className = 'writeup_list';
+                    const a = document.createElement("a");
+                    const meta = document.createElement("small");
+
+                    a.href = `writeup.html?writeup=${encodeURIComponent(item.file)}`;
+                    a.textContent = item.title;
+
+                    meta.textContent = ` (${item.date})`;
+                    meta.style.marginLeft = "0.5em";
+
+                    li.appendChild(a);
+                    li.appendChild(meta);
+                    ul.appendChild(li);
+                }
+
+                document.getElementById("content").appendChild(ul);
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById("content").innerHTML =
+                    "<p>Failed to load writeups.</p>";
+            }
+        }
+
+        loadWriteupsList();
+    </script>
+</body>
 </html>

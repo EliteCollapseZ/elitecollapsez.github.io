@@ -1,0 +1,51 @@
+body{
+    background-color: #303030;
+    color: white;
+    padding: 5vh 5vw;
+    font-family: monospace;
+}
+
+.card{
+    background-color: black;
+    padding: 1em;
+    margin: 2em 0;
+    border-radius: 1em;
+    box-shadow: 0.3em 0.3em 0.3em rgb(52, 235, 125);
+}
+
+.card:hover{
+    cursor: pointer;
+    transform: scale(1.01);
+    transition: 1s;
+}
+
+.centered{
+    text-align: center;
+}
+
+
+h1{
+    text-align: center;
+    font-size: 3em;
+}
+
+h2{
+    color: rgb(52, 235, 125);
+}
+
+.writeup_list{
+    font-size: 2em;
+}
+
+.writeup_list a {
+    color: white;
+    text-decoration: none;
+}
+
+.writeup_list a:visited {
+    color: white;
+}
+
+.writeup_list a:hover {
+    color: #ccc;
+}

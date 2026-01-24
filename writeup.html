@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="content"></div>
+
+    <script>
+        async function fetchFileContents(filename) {
+            try {
+                const res = await fetch("writeups/index.json");
+                if (!res.ok) throw new Error("Failed to load index.json");
+                const writeups = await res.json();
+
+                const files = writeups.map(item => item.file);
+
+                if (files.includes(filename)) {
+                    const response = await fetch(`writeups/${encodeURIComponent(filename)}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return await response.text();
+                } else{
+                    return "# Error\nWriteup not found.";
+                }
+
+                
+            } catch (error) {
+                console.error("Could not fetch the file:", error);
+                return "# Error\nCould not load writeup.";
+            }
+        }
+
+        async function loadWriteup() {
+            const params = new URLSearchParams(window.location.search);
+            const writeup = decodeURIComponent(params.get('writeup'));
+
+            if (!writeup) {
+                document.getElementById('content').innerHTML =
+                    "<p>No writeup specified.</p>";
+                return;
+            }
+
+            const fileContent = await fetchFileContents(writeup);
+            const html = marked.parse(fileContent);
+            document.getElementById('content').innerHTML = html;
+        }
+
+        loadWriteup();
+    </script>
+</body>
+</html>
