@@ -19,22 +19,23 @@
                 if (!res.ok) throw new Error("Failed to load index.json");
 
                 const writeups = await res.json();
+
+                //sorting based on date
+                writeups.sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                });
+
                 const ul = document.createElement("ul");
 
                 for (const item of writeups) {
                     const li = document.createElement("li");
                     li.className = 'writeup_list';
                     const a = document.createElement("a");
-                    const meta = document.createElement("small");
 
-                    a.href = `writeup.html?writeup=${encodeURIComponent(item.file)}`;
-                    a.textContent = item.title;
-
-                    meta.textContent = ` (${item.date})`;
-                    meta.style.marginLeft = "0.5em";
+                    a.href = `writeup.html?writeup=${encodeURIComponent(item.title + "/writeup.md")}`;
+                    a.textContent = `${item.title} (${item.date})`;
 
                     li.appendChild(a);
-                    li.appendChild(meta);
                     ul.appendChild(li);
                 }
 

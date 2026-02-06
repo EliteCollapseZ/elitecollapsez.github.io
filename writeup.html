@@ -16,10 +16,10 @@
                 if (!res.ok) throw new Error("Failed to load index.json");
                 const writeups = await res.json();
 
-                const files = writeups.map(item => item.file);
+                const files = writeups.map(item => item.title + "/writeup.md");
 
                 if (files.includes(filename)) {
-                    const response = await fetch(`writeups/${encodeURIComponent(filename)}`);
+                    const response = await fetch(`writeups/${filename}`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
